@@ -97,9 +97,9 @@ void Hardware_Init(void)
 int main(void)
 {
 
-    unsigned short timeCount = 0; // 发送间隔变量
+    // unsigned short timeCount = 0; // 发送间隔变量
 
-    unsigned char *dataPtr = NULL;
+    // unsigned char *dataPtr = NULL;
 
     Hardware_Init(); // 初始化外围硬件
 
