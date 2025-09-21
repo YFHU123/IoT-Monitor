@@ -51,32 +51,32 @@ ARM Macro Assembler    Page 1
    30 00000000         ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
    31 00000000         ; </h>
    32 00000000         
-   33 00000000 00000400 
+   33 00000000 00000800 
                        Stack_Size
-                               EQU              0x00000400
+                               EQU              0x00000800
    34 00000000         
    35 00000000                 AREA             STACK, NOINIT, READWRITE, ALIGN
 =3
    36 00000000         Stack_Mem
                                SPACE            Stack_Size
-   37 00000400         __initial_sp
-   38 00000400         
-   39 00000400         
-   40 00000400         ; <h> Heap Configuration
+   37 00000800         __initial_sp
+   38 00000800         
+   39 00000800         
+   40 00000800         ; <h> Heap Configuration
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   41 00000400         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
-   42 00000400         ; </h>
-   43 00000400         
-   44 00000400 00000200 
+   41 00000800         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+   42 00000800         ; </h>
+   43 00000800         
+   44 00000800 00000200 
                        Heap_Size
                                EQU              0x00000200
-   45 00000400         
-   46 00000400                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
+   45 00000800         
+   46 00000800                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
 3
    47 00000000         __heap_base
    48 00000000         Heap_Mem
@@ -472,16 +472,16 @@ ARM Macro Assembler    Page 8
               00000000 
               00000000 
               00000000 
-              00000400 
+              00000800 
               00000200 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=.\output\startup_stm32f10x_md.d -o.\output\startup_stm32f10x_md.o 
--ID:\stm32\F1_STL\TEST48\RTE -IE:\Tools\Keil5\MDK\ARM\PACK\ARM\CMSIS\5.8.0\CMSI
-S\Core\Include -IE:\Tools\Keil5\MDK\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\In
-clude --predefine="__UVISION_VERSION SETA 516" --predefine="_RTE_ SETA 1" --pre
-define="STM32F10X_MD SETA 1" --list=.\listing\startup_stm32f10x_md.lst core\sta
-rtup\arm\startup_stm32f10x_md.s
+-I.\RTE\_STM32F103 -IE:\TOOLS\Keil5\MDK\Packs\ARM\CMSIS\6.2.0\CMSIS\Core\Includ
+e -IE:\TOOLS\Keil5\MDK\Packs\Keil\STM32F1xx_DFP\1.0.5\Device\Include --predefin
+e="__UVISION_VERSION SETA 543" --predefine="STM32F10X_MD SETA 1" --predefine="_
+RTE_ SETA 1" --list=.\listing\startup_stm32f10x_md.lst core\startup\arm\startup
+_stm32f10x_md.s
 
 
 
@@ -505,7 +505,7 @@ Symbol: Stack_Mem
       At line 296 in file core\startup\arm\startup_stm32f10x_md.s
       At line 298 in file core\startup\arm\startup_stm32f10x_md.s
 
-__initial_sp 00000400
+__initial_sp 00000800
 
 Symbol: __initial_sp
    Definitions
@@ -1158,7 +1158,7 @@ Symbol: Heap_Size
       At line 48 in file core\startup\arm\startup_stm32f10x_md.s
       At line 297 in file core\startup\arm\startup_stm32f10x_md.s
 
-Stack_Size 00000400
+Stack_Size 00000800
 
 Symbol: Stack_Size
    Definitions

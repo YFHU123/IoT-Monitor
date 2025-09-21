@@ -107,30 +107,30 @@ int main(void)
     UsartPrintf(USART_DEBUG, "Connect MQTTs Server...\r\n");
     while (ESP8266_SendCmd(ESP8266_ONENET_INFO, "CONNECT"))
         DelayXms(500);
-    UsartPrintf(USART_DEBUG, "Connect MQTTs Server Success!\r\n");
-
+    UsartPrintf(USART_DEBUG, "Connect MQTT Server Success\r\n");
+    //
     while (OneNet_DevLink()) // 接入OneNET
         DelayXms(500);
 
-    while (1) {
-        DHT11_Read_Data(&temp, &humi); //
-        UsartPrintf(USART_DEBUG, "temp %d ,humi %d\r\n", temp, humi);
+    OneNET_Subscribe();
 
-        if (++timeCount >= 500) // 发送间隔5s
+    while (1) {
+
+        if (++timeCount >= 100) // 发送间隔5s
         {
             DHT11_Read_Data(&temp, &humi);
 
-            UsartPrintf(USART_DEBUG, "OneNet_SendData\r\n");
+            //			UsartPrintf(USART_DEBUG, "OneNet_SendData\r\n");
             OneNet_SendData(); // 发送数据
 
             timeCount = 0;
             ESP8266_Clear();
         }
 
-        // dataPtr = ESP8266_GetIPD(0);
-        // if (dataPtr != NULL)
-        //     OneNet_RevPro(dataPtr);
+        dataPtr = ESP8266_GetIPD(0);
+        if (dataPtr != NULL)
+            OneNet_RevPro(dataPtr);
 
-        // DelayXms(10);
+        DelayMs(10);
     }
 }

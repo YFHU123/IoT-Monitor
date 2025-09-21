@@ -87,6 +87,9 @@
           },
           {
             "path": "NET/onenet/src/base64.c"
+          },
+          {
+            "path": "NET/CJSON/cJSON.c"
           }
         ],
         "folders": []
@@ -282,7 +285,8 @@
           "NET/MQTT",
           "NET/device/inc",
           ".cmsis/include",
-          "RTE/_STM32F103"
+          "RTE/_STM32F103",
+          "NET/CJSON"
         ],
         "libList": [],
         "defineList": [

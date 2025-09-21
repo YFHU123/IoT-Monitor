@@ -1,7 +1,7 @@
 .\output\delay.o: hardware\src\delay.c
 .\output\delay.o: .\core\stm32f10x.h
 .\output\delay.o: .\core\core_cm3.h
-.\output\delay.o: E:\Tools\Keil5\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\delay.o: E:\TOOLS\Keil5\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\delay.o: .\core\system_stm32f10x.h
 .\output\delay.o: .\core\stm32f10x_conf.h
 .\output\delay.o: .\fwlib\inc\stm32f10x_adc.h

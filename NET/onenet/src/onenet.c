@@ -41,6 +41,7 @@
 // C库
 #include <string.h>
 #include <stdio.h>
+#include "cJSON.h"
 
 #define PROID       "fKMc4Y56Yr"
 
@@ -392,7 +393,7 @@ unsigned char OneNet_FillBuf(char *buf)
     sprintf(text, "\"humi\":{\"value\":%d},", humi);
     strcat(buf, text);
 
-    // led 
+    // led
     sprintf(text, "\"led\":{\"value\":%s}", LED_info.Led_Status ? "true" : "false");
     strcat(buf, text);
 
@@ -421,7 +422,7 @@ void OneNet_SendData(void)
 
     short body_len = 0, i = 0;
 
-    UsartPrintf(USART_DEBUG, "Tips:	OneNet_SendData-MQTT\r\n");
+    // UsartPrintf(USART_DEBUG, "Tips:	OneNet_SendData-MQTT\r\n");
 
     memset(buf, 0, sizeof(buf));
 
@@ -434,7 +435,7 @@ void OneNet_SendData(void)
                 mqttPacket._data[mqttPacket._len++] = buf[i];
 
             ESP8266_SendData(mqttPacket._data, mqttPacket._len); // 上传数据到平台
-            UsartPrintf(USART_DEBUG, "Send %d Bytes\r\n", mqttPacket._len);
+            // UsartPrintf(USART_DEBUG, "Send %d Bytes\r\n", mqttPacket._len);
 
             MQTT_DeleteBuffer(&mqttPacket); // 删包
         } else
@@ -487,7 +488,7 @@ void OneNET_Subscribe(void)
     char topic_buf[56];
     const char *topic = topic_buf;
 
-    snprintf(topic_buf, sizeof(topic_buf), "$sys/%s/%s/cmd/#", PROID, DEVICE_NAME);
+    snprintf(topic_buf, sizeof(topic_buf), "$sys/%s/%s/thing/property/set", PROID, DEVICE_NAME);
 
     UsartPrintf(USART_DEBUG, "Subscribe Topic: %s\r\n", topic_buf);
 
@@ -529,9 +530,11 @@ void OneNet_RevPro(unsigned char *cmd)
     char numBuf[10];
     int num = 0;
 
+    cJSON *raw_json, *params_json, *led_json;
+
     type = MQTT_UnPacketRecv(cmd);
     switch (type) {
-        case MQTT_PKT_PUBLISH: // 接收的Publish消息
+        case MQTT_PKT_PUBLISH: // ½ÓÊÕµÄPublishÏûÏ¢
 
             result = MQTT_UnPacketPublish(cmd, &cmdid_topic, &topic_len, &req_payload, &req_len, &qos, &pkt_id);
             if (result == 0) {
@@ -540,30 +543,27 @@ void OneNet_RevPro(unsigned char *cmd)
                 UsartPrintf(USART_DEBUG, "topic: %s, topic_len: %d, payload: %s, payload_len: %d\r\n",
                             cmdid_topic, topic_len, req_payload, req_len);
 
-                data_ptr = strstr(cmdid_topic, "request/"); // 查找cmdid
-                if (data_ptr) {
-                    char topic_buf[80], cmdid[40];
-
-                    data_ptr = strchr(data_ptr, '/');
-                    data_ptr++;
-
-                    memcpy(cmdid, data_ptr, 36); // 复制cmdid
-                    cmdid[36] = 0;
-
-                    snprintf(topic_buf, sizeof(topic_buf), "$sys/%s/%s/cmd/response/%s",
-                             PROID, DEVICE_NAME, cmdid);
-                    OneNET_Publish(topic_buf, "ojbk"); // 回复命令
+                raw_json    = cJSON_Parse(req_payload);
+                params_json = cJSON_GetObjectItem(raw_json, "params");
+                led_json    = cJSON_GetObjectItem(params_json, "led");
+                if (led_json != NULL) {
+                    if (led_json->type == cJSON_True)
+                        Led_Set(LED_ON);
+                    else
+                        Led_Set(LED_OFF);
                 }
+
+                cJSON_Delete(raw_json);
             }
 
-        case MQTT_PKT_PUBACK: // 发送Publish消息，平台回复的Ack
+        case MQTT_PKT_PUBACK: // ·¢ËÍPublishÏûÏ¢£¬Æ½Ì¨»Ø¸´µÄAck
 
             if (MQTT_UnPacketPublishAck(cmd) == 0)
                 UsartPrintf(USART_DEBUG, "Tips:	MQTT Publish Send OK\r\n");
 
             break;
 
-        case MQTT_PKT_SUBACK: // 发送Subscribe消息的Ack
+        case MQTT_PKT_SUBACK: // ·¢ËÍSubscribeÏûÏ¢µÄAck
 
             if (MQTT_UnPacketSubscribe(cmd) == 0)
                 UsartPrintf(USART_DEBUG, "Tips:	MQTT Subscribe OK\r\n");
@@ -577,25 +577,10 @@ void OneNet_RevPro(unsigned char *cmd)
             break;
     }
 
-    ESP8266_Clear(); // 清空缓存
+    ESP8266_Clear(); // Çå¿Õ»º´æ
 
     if (result == -1)
         return;
-
-    dataPtr = strchr(req_payload, ':'); // 搜索':'
-
-    if (dataPtr != NULL && result != -1) // 如果找到了
-    {
-        dataPtr++;
-
-        while (*dataPtr >= '0' && *dataPtr <= '9') // 判断是否是下发的命令控制数据
-        {
-            numBuf[num++] = *dataPtr++;
-        }
-        numBuf[num] = 0;
-
-        num = atoi((const char *)numBuf); // 转为数值形式
-    }
 
     if (type == MQTT_PKT_CMD || type == MQTT_PKT_PUBLISH) {
         MQTT_FreeBuffer(cmdid_topic);

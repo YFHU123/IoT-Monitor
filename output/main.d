@@ -1,7 +1,7 @@
 .\output\main.o: user\main.c
 .\output\main.o: .\core\stm32f10x.h
 .\output\main.o: .\core\core_cm3.h
-.\output\main.o: E:\Tools\Keil5\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\main.o: E:\TOOLS\Keil5\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\main.o: .\core\system_stm32f10x.h
 .\output\main.o: .\core\stm32f10x_conf.h
 .\output\main.o: .\fwlib\inc\stm32f10x_adc.h
@@ -33,6 +33,7 @@
 .\output\main.o: .\hardware\inc\delay.h
 .\output\main.o: .\hardware\inc\usart.h
 .\output\main.o: .\hardware\inc\i2c.h
-.\output\main.o: .\hardware\inc\beep.h
-.\output\main.o: .\hardware\inc\sht20.h
-.\output\main.o: E:\Tools\Keil5\MDK\ARM\ARMCC\Bin\..\include\string.h
+.\output\main.o: .\hardware\inc\led.h
+.\output\main.o: .\hardware\inc\key.h
+.\output\main.o: .\hardware\inc\dht11.h
+.\output\main.o: E:\TOOLS\Keil5\MDK\ARM\ARMCC\Bin\..\include\string.h

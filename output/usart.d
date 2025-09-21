@@ -2,7 +2,7 @@
 .\output\usart.o: .\hardware\inc\usart.h
 .\output\usart.o: .\core\stm32f10x.h
 .\output\usart.o: .\core\core_cm3.h
-.\output\usart.o: E:\Tools\Keil5\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\usart.o: E:\TOOLS\Keil5\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\usart.o: .\core\system_stm32f10x.h
 .\output\usart.o: .\core\stm32f10x_conf.h
 .\output\usart.o: .\fwlib\inc\stm32f10x_adc.h
@@ -30,6 +30,6 @@
 .\output\usart.o: .\fwlib\inc\stm32f10x_wwdg.h
 .\output\usart.o: .\fwlib\inc\misc.h
 .\output\usart.o: .\hardware\inc\delay.h
-.\output\usart.o: E:\Tools\Keil5\MDK\ARM\ARMCC\Bin\..\include\stdarg.h
-.\output\usart.o: E:\Tools\Keil5\MDK\ARM\ARMCC\Bin\..\include\string.h
-.\output\usart.o: E:\Tools\Keil5\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\usart.o: E:\TOOLS\Keil5\MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\usart.o: E:\TOOLS\Keil5\MDK\ARM\ARMCC\Bin\..\include\string.h
+.\output\usart.o: E:\TOOLS\Keil5\MDK\ARM\ARMCC\Bin\..\include\stdio.h
