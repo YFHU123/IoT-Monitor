@@ -36,6 +36,7 @@
 // 硬件驱动
 #include "usart.h"
 #include "delay.h"
+#include "led.h"
 
 // C库
 #include <string.h>
@@ -373,21 +374,26 @@ _Bool OneNet_DevLink(void)
     return status;
 }
 
+extern uint8_t temp, humi;
+extern LED_INFO LED_info;
+
 unsigned char OneNet_FillBuf(char *buf)
 {
+    char text[64]; // 建议大一点，避免溢出
+    memset(buf, 0, 256);
 
-    char text[48];
+    strcpy(buf, "{\"id\":\"123\",\"params\":{");
 
-    memset(text, 0, sizeof(text));
-
-    strcpy(buf, "{\"id\":123,\"dp\":{");
-
-    memset(text, 0, sizeof(text));
-    // sprintf(text, "\"Tempreture\":[{\"v\":%f}],", sht20_info.tempreture);
+    // temp
+    sprintf(text, "\"temp\":{\"value\":%d},", temp);
     strcat(buf, text);
 
-    memset(text, 0, sizeof(text));
-    // sprintf(text, "\"Humidity\":[{\"v\":%f}]", sht20_info.humidity);
+    // humi
+    sprintf(text, "\"humi\":{\"value\":%d},", humi);
+    strcat(buf, text);
+
+    // led 
+    sprintf(text, "\"led\":{\"value\":%s}", LED_info.Led_Status ? "true" : "false");
     strcat(buf, text);
 
     strcat(buf, "}}");

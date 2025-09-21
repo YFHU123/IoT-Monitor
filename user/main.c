@@ -40,8 +40,7 @@
 
 #define ESP8266_ONENET_INFO "AT+CIPSTART=\"TCP\",\"mqtts.heclouds.com\",1883\r\n"
 
-uint8_t temp;
-uint8_t humi;
+uint8_t temp, humi;
 
 /*
 ************************************************************
@@ -97,9 +96,9 @@ void Hardware_Init(void)
 int main(void)
 {
 
-    // unsigned short timeCount = 0; // 发送间隔变量
+    unsigned short timeCount = 0; // 发送间隔变量
 
-    // unsigned char *dataPtr = NULL;
+    unsigned char *dataPtr = NULL;
 
     Hardware_Init(); // 初始化外围硬件
 
@@ -114,19 +113,19 @@ int main(void)
         DelayXms(500);
 
     while (1) {
-        // DHT11_Read_Data(&temp, &humi); //
-        // UsartPrintf(USART_DEBUG, "temp %d ,humi %d\r\n", temp, humi);
+        DHT11_Read_Data(&temp, &humi); //
+        UsartPrintf(USART_DEBUG, "temp %d ,humi %d\r\n", temp, humi);
 
-        // if (++timeCount >= 500) // 发送间隔5s
-        // {
-        //     // SHT20_GetValue();
+        if (++timeCount >= 500) // 发送间隔5s
+        {
+            DHT11_Read_Data(&temp, &humi);
 
-        //     UsartPrintf(USART_DEBUG, "OneNet_SendData\r\n");
-        //     OneNet_SendData(); // 发送数据
+            UsartPrintf(USART_DEBUG, "OneNet_SendData\r\n");
+            OneNet_SendData(); // 发送数据
 
-        //     timeCount = 0;
-        //     ESP8266_Clear();
-        // }
+            timeCount = 0;
+            ESP8266_Clear();
+        }
 
         // dataPtr = ESP8266_GetIPD(0);
         // if (dataPtr != NULL)
