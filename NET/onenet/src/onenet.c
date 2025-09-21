@@ -41,11 +41,11 @@
 #include <string.h>
 #include <stdio.h>
 
-#define PROID       ""
+#define PROID       "fKMc4Y56Yr"
 
-#define ACCESS_KEY  ""
+#define ACCESS_KEY  "T0JicHAxNTR5SG9xUlZJNHlNVDZIeTI5YXF4V3pNRHg="
 
-#define DEVICE_NAME ""
+#define DEVICE_NAME "dev"
 
 char devid[16];
 
@@ -324,11 +324,11 @@ _Bool OneNet_DevLink(void)
 
     _Bool status = 1;
 
-    OneNET_Authorization("2018-10-31", PROID, 1956499200, key, DEVICE_NAME,
+    OneNET_Authorization("2018-10-31", PROID, 1987230660, ACCESS_KEY, DEVICE_NAME,
                          authorization_buf, sizeof(authorization_buf), 0);
 
     UsartPrintf(USART_DEBUG, "OneNET_DevLink\r\n"
-                             "NAME: %s,	PROID: %s,	KEY:%s\r\n",
+                             "NAME: %s,	PROID: %s,	ACCESS_KEY:%s\r\n",
                 DEVICE_NAME, PROID, authorization_buf);
 
     if (MQTT_PacketConnect(PROID, authorization_buf, DEVICE_NAME, 256, 1, MQTT_QOS_LEVEL0, NULL, NULL, 0, &mqttPacket) == 0) {
